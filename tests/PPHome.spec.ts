@@ -1,22 +1,35 @@
 import { test, expect } from '@playwright/test';
-// Test if the "Sign Up" button are visible, have the correct text, and are the correct colors
-test('Test Sign Up Button', async ({ page }) => {
-  await page.goto('https://www.prizepicks.com/');
-  await expect(page.getByRole('link', { name: 'Sign Up' })).toBeVisible();
-  await expect(page.locator('#navbar-signup-button')).toContainText('Sign Up');
-  await expect(page.locator('#navbar-signup-button')).toHaveCSS(
-    "--stankonia-100",
-    "#8000ff"
-  )
-});
-// Test if the "Log In" buttons are visible, have the correct text, and are the correct colors
-test('Test Log In Button', async ({ page }) => {
-  await page.goto('https://www.prizepicks.com/');
-  await expect(page.getByRole('link', { name: 'Log In' })).toBeVisible();
-  await expect(page.locator('#navbar-login-button')).toContainText('Log In');
-  await expect(page.locator('#navbar-login-button')).toHaveCSS(
-    "--so-fresh-120",
-    "#1f202d"
-  )
-});
 
+const urls = {
+  homePage: 'https://www.prizepicks.com/',
+}
+
+const selectors = {
+  signUpButton: '#navbar-signup-button',
+  logInButton: '#navbar-login-button',
+}
+
+const expectedValues = {
+  signUpButtonText: 'Sign Up',
+  logInButtonText: 'Log In',
+  signUpButtonColor: '#8000ff',
+  logInButtonColor: '#1f202d',
+}
+
+test.describe('Home Page', () => {
+  // Test if the "Sign Up" button is visible, has the correct text, and is the correct color
+  test('Sign Up Button', async ({ page }) => {
+    await page.goto(urls.homePage);
+    await expect(page.getByRole('link', { name: 'Sign Up' })).toBeVisible();
+    await expect(page.locator(selectors.signUpButton)).toHaveText(expectedValues.signUpButtonText);
+    await expect(page.locator(selectors.signUpButton)).toHaveCSS("--stankonia-100", expectedValues.signUpButtonColor);
+  });
+
+  // Test if the "Log In" button is visible, has the correct text, and is the correct color
+  test('Log In Button', async ({ page }) => {
+    await page.goto(urls.homePage);
+    await expect(page.getByRole('link', { name: 'Log In' })).toBeVisible();
+    await expect(page.locator(selectors.logInButton)).toHaveText(expectedValues.logInButtonText);
+    await expect(page.locator(selectors.logInButton)).toHaveCSS("--so-fresh-120", expectedValues.logInButtonColor);
+  });
+});
